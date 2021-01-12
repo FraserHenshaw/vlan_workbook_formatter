@@ -4,7 +4,6 @@ import sys
 
 
 if __name__ == "__main__":
-    from functions import items_from_range, items_from_ranges
     parser = argparse.ArgumentParser()
     parser.add_argument('path', type=str,
                         help='Path to Excel File')
