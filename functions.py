@@ -1,5 +1,6 @@
 import sys
 from openpyxl import load_workbook
+from openpyxl.styles import Alignment
 
 
 def items_from_ranges(values):
@@ -48,5 +49,6 @@ def format_workbook(path, col):
             if data.value is not None:
                 formatted = items_from_ranges(str(data.value))
                 data.value = formatted
+                data.alignment = Alignment(wrap_text=True)
 
     wb.save('formatted.xlsx')
