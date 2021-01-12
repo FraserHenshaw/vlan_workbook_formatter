@@ -1,27 +1,8 @@
 import sys
+from openpyxl import load_workbook
 
 
-def items_from_range(values: str) -> str:
-    """Function to convert a range into a joined string of items
-
-    Args:
-        start (int): Start of range
-        end (int): End of Range
-
-    Returns:
-        str: string of range items seperated by a comma
-    """
-    try:
-        start, end = values.split('-')
-    except ValueError:
-        sys.exit(
-            'Input not in correct format, must be a range seperate with a hyphen')
-
-    # Convert Values
-    print((',').join([str(x) for x in list(range(int(start), int(end)+1))]))
-
-
-def items_from_ranges(values: str) -> str:
+def items_from_ranges(values):
     """Function to convert a range into a joined string of items
 
     Args:
@@ -51,6 +32,21 @@ def items_from_ranges(values: str) -> str:
         else:
             formatted_ranges.append(str(item))
     # Convert Values
-    print('\n\n')
-    print((',').join(formatted_ranges))
-    print('\n\n')
+    return (',').join(formatted_ranges)
+
+
+def format_workbook(path, col):
+    wb = load_workbook(filename=path)
+    skip_sheets = ['cover', 'vlans', 'vrfs']
+    # Loop over sheets and format cols
+    for sheet in wb.sheetnames:
+        if sheet.lower() in skip_sheets:
+            continue
+        ws = wb[sheet]
+        all_data = ws[col]
+        for data in all_data:
+            if data.value is not None:
+                formatted = items_from_ranges(str(data.value))
+                data.value = formatted
+
+    wb.save('formatted.xlsx')
