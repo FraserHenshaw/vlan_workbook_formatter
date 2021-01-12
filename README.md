@@ -13,3 +13,7 @@ into:
 <pre>
 python items_from_range.py [path_to_file] [column to filter]
 </pre>
+
+so for the migration workbook it would be:
+
+<pre>python items_from_range.py workbook.xlsx g</pre>
